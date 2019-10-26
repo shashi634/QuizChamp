@@ -4,6 +4,7 @@ from .models import User
 from  Organization.models import Organization 
 import hashlib, binascii, os
 import datetime
+from django.contrib import messages
 #from DjangoLearning.common import hashPassword
 # Create your views here.
 def getUser(request):
@@ -28,19 +29,23 @@ def userLogin(request):
     return render(request,'registration.html')
 
 def registerUser(request):
-    userName = str(request.POST['userName'])
-    password = str(request.POST['password'])
-    emailId = str(request.POST['emailId'])
-    organization = Organization.objects.get(id=1)
-    user = User()
-    user.UserName = userName
-    user.Password = password
-    user.EmailId = emailId
-    user.IsActived = True
-    user.ActivatiedOn = datetime.datetime.now()
-    user.OrganizationId = organization
-    user.save()
-    return render(request,'result.html')
-
-def newMethod():
+    try:
+        userName = str(request.POST['userName'])
+        password = str(request.POST['password'])
+        emailId = str(request.POST['emailId'])
+        organization = Organization.objects.get(id=1)
+        user = User()
+        user.UserName = userName
+        user.Password = password
+        user.EmailId = emailId
+        user.IsActived = True
+        user.ActivatiedOn = datetime.datetime.now()
+        user.OrganizationId = organization
+        user.save()
+        messages.success(request, 'Registration successful')
+        return render(request,'registration.html')
+    except Exception as e: 
+        messages.error(request, e.args)
+        return render(request,'registration.html')
     
+
