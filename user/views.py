@@ -41,3 +41,6 @@ def registerUser(request):
     user.OrganizationId = organization
     user.save()
     return render(request,'result.html')
+
+def newMethod():
+    
