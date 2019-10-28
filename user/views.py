@@ -6,6 +6,7 @@ import hashlib, binascii, os
 import datetime
 from django.contrib import messages
 from DjangoLearning.common import checkEmail
+from django.http import HttpResponseRedirect
 #from DjangoLearning.common import hashPassword
 # Create your views here.
 def getUser(request):
@@ -26,8 +27,8 @@ def userLogin(request):
             emailId = str(request.POST['emailId'])
             password = str(request.POST['password'])
             userInfo = User.objects.get(EmailId = emailId, Password = password)
-            messages.success(request, userInfo.OrganizationId.Name)
-            return render(request,'login.html')
+            #messages.success(request, userInfo.OrganizationId.Name)
+            return HttpResponseRedirect('/dashboad')
         else:
             return render(request,'login.html')
     except Exception as e:
