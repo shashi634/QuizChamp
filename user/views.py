@@ -13,7 +13,7 @@ def getUser(request):
     # insted of this we are going to use templates
     # return HttpResponse("shashi shanker singh")
     userData = User.objects.get(id=1)
-    return render(request,'home.html' , {'userName': userData.EmailId})
+    return render(request,'home.html' , {'userName': userData.UserName})
 
 def add(request):
     number1 = int(request.POST['num1'])
