@@ -7,6 +7,7 @@ import datetime
 from django.contrib import messages
 from DjangoLearning.common import checkEmail
 from django.http import HttpResponseRedirect
+from django.core import serializers
 #from DjangoLearning.common import hashPassword
 # Create your views here.
 def getUser(request):
@@ -26,9 +27,14 @@ def userLogin(request):
         if request.method == "POST":
             emailId = str(request.POST['emailId'])
             password = str(request.POST['password'])
-            userInfo = User.objects.get(EmailId = emailId, Password = password)
-            #messages.success(request, userInfo.OrganizationId.Name)
-            return HttpResponseRedirect('/dashboad')
+            userInfo = User.objects.filter(EmailId = emailId, Password = password)
+            if not (userInfo.exists()):
+                messages.error(request,"Invalid Username and Password!")
+                return render(request,'login.html')
+            else:
+                seralizedObject = serializers.serialize("json", userInfo)
+                request.session["quizChampAdmin"] = seralizedObject
+                return HttpResponseRedirect('/dashboad')
         else:
             return render(request,'login.html')
     except Exception as e:
