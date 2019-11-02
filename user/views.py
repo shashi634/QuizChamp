@@ -32,8 +32,7 @@ def userLogin(request):
                 messages.error(request,"Invalid Username and Password!")
                 return render(request,'login.html')
             else:
-                seralizedObject = serializers.serialize("json", userInfo)
-                request.session["quizChampAdmin"] = seralizedObject
+                request.session["quizChampAdmin"] = userInfo[0].UserName +'~'+ userInfo[0].EmailId +'~'+ userInfo[0].OrganizationId.PublicId
                 return HttpResponseRedirect('/organization')
         else:
             return render(request,'login.html')
