@@ -1,6 +1,8 @@
 import hashlib, binascii, os
 import re
-
+from django.utils.deprecation import MiddlewareMixin
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 def hashPassword(password):
     """Hash a password for storing."""
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
@@ -15,3 +17,18 @@ def checkEmail(email):
         return True
     else:
         return False
+
+def currentLoggedInUserData():
+    data = dict()
+    if "quizChampAdmin" in request.session:
+        sessionData = request.session["quizChampAdmin"].split('~')
+        data['UserName'] = sessionData[0]
+        data['EmailId'] = sessionData[1]
+        data['OrganizationId'] = sessionData[2]
+    return data
+
+class AuthRequiredMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        if not "quizChampAdmin" in request.session:
+            return render(request,'login.html')
+        return None
