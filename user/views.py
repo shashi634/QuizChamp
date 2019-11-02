@@ -34,7 +34,7 @@ def userLogin(request):
             else:
                 seralizedObject = serializers.serialize("json", userInfo)
                 request.session["quizChampAdmin"] = seralizedObject
-                return HttpResponseRedirect('/dashboad')
+                return HttpResponseRedirect('/organization')
         else:
             return render(request,'login.html')
     except Exception as e:
