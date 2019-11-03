@@ -85,4 +85,6 @@ def registration(request):
         messages.error(request, "Something went wrong. PLease try again.")
         return render(request,'registration.html')
     
-
+def logOut(request):
+    request.session.pop('quizChampAdmin')
+    return render(request,'login.html')
