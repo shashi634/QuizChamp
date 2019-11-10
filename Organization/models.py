@@ -11,7 +11,7 @@ class Organization(models.Model):
 class OrganizationLogo(models.Model):
     OrganizationId = models.ForeignKey(Organization, on_delete=models.CASCADE)
     PublicId = models.CharField(max_length=64)
-    LogoUrl = models.ImageField(upload_to='OrgLogo')
+    LogoUrl = models.ImageField(upload_to='OrgLogo/%Y/%m/%d')
 
 class OrganizationAddress(models.Model):
     OrganizationId = models.ForeignKey(Organization, on_delete=models.CASCADE)
